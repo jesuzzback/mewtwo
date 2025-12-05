@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$MEWTWO - The Legendary Memecoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mew-yellow: #FFCB05;
+            --mew-dark-yellow: #C7A008;
+            --mew-purple: #9B59B6;
+            --mew-dark-purple: #8E44AD;
+            --screen-green: #98C807;
+        }
+
+        body {
+            background-color: #222;
+            font-family: 'Fredoka One', cursive;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Anime Speed Lines Background */
+        .speed-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-conic-gradient(
+                    from 0deg,
+                    transparent 0deg 10deg,
+                    rgba(255, 203, 5, 0.1) 10deg 20deg
+                );
+            z-index: -1;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Typography */
+        .font-pixel { font-family: 'Press Start 2P', cursive; }
+        .font-data { font-family: 'VT323', monospace; }
+
+        /* Card Container */
+        .card-container {
+            position: relative;
+        }
+        
+        .poke-card {
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.6);
+            border-radius: 15px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-container:hover .poke-card {
+            box-shadow: 0 0 50px rgba(255, 203, 5, 0.8), 0 0 20px rgba(155, 89, 182, 0.8);
+        }
+
+        /* Glitter Animation (Now triggers on hover) */
+        .glitter-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 15px;
+            z-index: 20;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease;
+        }
+
+        .card-container:hover .glitter-overlay {
+            opacity: 1; /* Show on hover */
+        }
+
+        .glitter-particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.8);
+            animation: glitter 2s infinite linear;
+        }
+
+        @keyframes glitter {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Sparks/Electric Animation (New) */
+        .sparks-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 15px;
+            z-index: 21;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .card-container:hover .sparks-overlay {
+            opacity: 1;
+        }
+
+        .spark-particle {
+            position: absolute;
+            background: var(--mew-yellow);
+            box-shadow: 0 0 5px var(--mew-yellow), 0 0 15px white;
+            /* Makes a jagged spark shape */
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: spark-flicker 0.3s infinite alternate linear;
+        }
+
+        @keyframes spark-flicker {
+            0% { opacity: 0.3; transform: scale(0.5) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            color: var(--mew-purple);
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 56px, 0); }
+            20% { clip: rect(80px, 9999px, 12px, 0); }
+            40% { clip: rect(30px, 9999px, 89px, 0); }
+            60% { clip: rect(10px, 9999px, 2px, 0); }
+            80% { clip: rect(55px, 9999px, 12px, 0); }
+            100% { clip: rect(85px, 9999px, 66px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(10px, 9999px, 2px, 0); }
+            40% { clip: rect(12px, 9999px, 56px, 0); }
+            60% { clip: rect(80px, 9999px, 12px, 0); }
+            80% { clip: rect(30px, 9999px, 89px, 0); }
+            100% { clip: rect(10px, 9999px, 2px, 0); }
+        }
+
+        /* Pokedex Screen Scanlines */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Floating Animation */
+        .float-anim {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Button Press */
+        .push-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 0 #1e40af; /* darken blue */
+        }
+    </style>
+</head>
+<body class="text-gray-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Anime Background -->
+    <div class="speed-lines"></div>
+
+    <!-- Main Pokedex Container -->
+    <div class="relative w-full max-w-4xl bg-yellow-400 rounded-3xl border-8 border-yellow-600 shadow-2xl p-4 md:p-8 flex flex-col md:flex-row gap-6 overflow-hidden">
+        
+        <!-- Decoration: Hinges/Lights -->
+        <div class="absolute top-0 left-0 w-full h-8 flex items-center px-4 space-x-2 z-20">
+            <div class="w-16 h-16 rounded-full bg-blue-500 border-4 border-white shadow-lg animate-pulse"></div>
+            <div class="w-4 h-4 rounded-full bg-red-500 border-2 border-red-800"></div>
+            <div class="w-4 h-4 rounded-full bg-yellow-300 border-2 border-yellow-600"></div>
+            <div class="w-4 h-4 rounded-full bg-green-500 border-2 border-green-800"></div>
+        </div>
+
+        <!-- Left Panel: The Card & Visuals -->
+        <div class="flex-1 flex flex-col items-center justify-center mt-12 md:mt-0 z-10">
+            
+            <!-- Screen Frame -->
+            <div class="bg-gray-200 p-4 rounded-lg border-b-8 border-r-8 border-gray-300 shadow-inner w-full max-w-sm">
+                <div class="flex justify-center items-center gap-2 mb-2">
+                    <div class="w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
+                    <span class="text-xs font-pixel text-red-600">LIVE FEED</span>
+                </div>
+
+                <!-- The Image/Card Area -->
+                <div class="bg-black p-2 rounded border-4 border-gray-600 relative card-container" id="cardContainer">
+                    <div class="scanlines absolute inset-0 z-15"></div>
+                    <!-- User's Image Path -->
+                    <img 
+                        src="images/1.png" 
+                        alt="$MEWTWO Card" 
+                        class="poke-card w-full h-auto object-cover rounded shadow-lg border-4 border-yellow-300 relative z-10"
+                        id="mainCard"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x560/222/FFCC00?text=Card+Image+Missing\n(Add+images/1.png)'; this.style.border='2px dashed yellow';"
+                    >
+                    <!-- Glitter Overlay (Appears on Hover) -->
+                    <div class="glitter-overlay" id="glitterOverlay"></div>
+                    <!-- Sparks Overlay (Appears on Hover) -->
+                    <div class="sparks-overlay" id="sparksOverlay"></div>
+                </div>
+
+                <div class="flex justify-between items-center mt-2 px-2">
+                    <div class="w-6 h-6 rounded-full bg-red-600 animate-pulse"></div>
+                    <div class="flex space-x-2">
+                        <div class="h-1 w-6 bg-gray-800"></div>
+                        <div class="h-1 w-6 bg-gray-800"></div>
+                        <div class="h-1 w-6 bg-gray-800"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticker -->
+            <div class="mt-6 bg-black text-yellow-400 px-6 py-2 rounded-full border-4 border-yellow-600 shadow-lg transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
+                <h2 class="text-3xl md:text-5xl font-black tracking-widest glitch" data-text="$MEWTWO">$MEWTWO</h2>
+            </div>
+        </div>
+
+        <!-- Right Panel: Data & Interactions -->
+        <div class="flex-1 flex flex-col gap-4 mt-4 md:mt-12 z-10">
+            
+            <!-- Data Screen -->
+            <div class="bg-green-500 p-1 rounded border-4 border-green-700 shadow-inner">
+                <div class="bg-green-100 p-4 rounded h-full font-data text-xl md:text-2xl text-green-900 overflow-hidden relative">
+                    <div class="scanlines absolute inset-0 opacity-20"></div>
+                    <p id="typewriterText" class="leading-tight"></p>
+                    <span class="animate-pulse">_</span>
+                </div>
+            </div>
+
+            <!-- Stats Bars -->
+            <div class="bg-blue-900 p-4 rounded-xl border-4 border-blue-950 text-white font-pixel text-xs md:text-sm shadow-lg">
+                <div class="mb-3">
+                    <div class="flex justify-between mb-1">
+                        <span>HODL POWER</span>
+                        <span>9000+</span>
+                    </div>
+                    <div class="w-full bg-blue-950 rounded-full h-4">
+                        <div class="bg-yellow-400 h-4 rounded-full" style="width: 95%"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="flex justify-between mb-1">
+                        <span>COMMUNITY</span>
+                        <span>LEGENDARY</span>
+                    </div>
+                    <div class="w-full bg-blue-950 rounded-full h-4">
+                        <div class="bg-purple-500 h-4 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span>PAPER HANDS</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="w-full bg-blue-950 rounded-full h-4">
+                        <div class="bg-red-500 h-4 rounded-full" style="width: 5%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Pad / Buttons -->
+            <div class="grid grid-cols-2 gap-4 mt-auto">
+                <!-- D-Pad Decoration -->
+                <div class="flex items-center justify-center">
+                    <div class="relative w-24 h-24">
+                        <div class="absolute top-0 left-8 w-8 h-24 bg-gray-800 rounded shadow-lg"></div>
+                        <div class="absolute top-8 left-0 w-24 h-8 bg-gray-800 rounded shadow-lg"></div>
+                        <div class="absolute top-9 left-9 w-6 h-6 bg-gray-700 rounded-full inset-shadow"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-3 justify-center">
+                    <button class="push-btn bg-green-600 text-white font-pixel text-xs py-3 rounded-lg border-b-4 border-green-800 hover:bg-green-500 transition-colors uppercase shadow-lg">
+                        BUY ON PUMPFUN
+                    </button>
+                    <a href="https://x.com/i/communities/1997069983348630005" target="_blank" class="push-btn bg-black text-white font-pixel text-xs py-3 rounded-lg border-b-4 border-gray-800 hover:bg-gray-900 transition-colors uppercase shadow-lg text-center flex items-center justify-center">
+                        X
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contract Address Chip -->
+            <div class="bg-gray-800 p-3 rounded-lg border-2 border-gray-600 flex items-center gap-2 cursor-pointer group" onclick="copyCA()">
+                <div class="w-3 h-10 bg-yellow-500 rounded-sm animate-pulse"></div>
+                <div class="overflow-hidden flex-1">
+                    <p class="text-gray-400 text-xs font-pixel mb-1">CONTRACT DATA CHIP</p>
+                    <p class="text-yellow-400 font-data text-lg truncate" id="ca-text">WILL BE UPDATED AFTER DEPLOY</p>
+                </div>
+                <div class="text-white group-hover:text-yellow-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            </div>
+            <div id="copy-toast" class="hidden text-center text-green-700 font-pixel text-xs">COPIED TO CLIPBOARD!</div>
+
+        </div>
+    </div>
+
+    <!-- Decoration Background Elements -->
+    <div class="fixed top-1/4 left-10 w-20 h-20 bg-purple-500 rounded-full filter blur-xl opacity-50 animate-bounce delay-700 -z-10"></div>
+    <div class="fixed bottom-1/4 right-10 w-32 h-32 bg-yellow-500 rounded-full filter blur-xl opacity-50 float-anim -z-10"></div>
+
+    <script>
+        // --- Typewriter Effect for Description ---
+        const text = "WILD $MEWTWO APPEARED! \n\nTYPE: SHITCOIN\nABILITY: DON'T PAY TAXES\n\nDESCRIPTION: I'M JUST A MEWTWO POKEMON. I DON'T GIVE A FUCK WHAT IS GOING ON.";
+        const typeWriterElement = document.getElementById('typewriterText');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                if(text.charAt(i) === "\n") {
+                    typeWriterElement.innerHTML += "<br>";
+                } else {
+                    typeWriterElement.innerHTML += text.charAt(i);
+                }
+                i++;
+                setTimeout(typeWriter, 30); // Speed of typing
+            }
+        }
+        
+        // Start typing after a small delay
+        setTimeout(typeWriter, 1000);
+
+        // --- Create Glitter Particles ---
+        const glitterOverlay = document.getElementById('glitterOverlay');
+        const glitterCount = 40;
+
+        for (let j = 0; j < glitterCount; j++) {
+            const particle = document.createElement('div');
+            particle.classList.add('glitter-particle');
+            // Random positions and sizes
+            const size = Math.random() * 4 + 2; 
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.left = `${Math.random() * 100}%`;
+            // Random animation delays
+            particle.style.animationDelay = `${Math.random() * 2}s`;
+            glitterOverlay.appendChild(particle);
+        }
+
+        // --- Create Spark Particles (New) ---
+        const sparksOverlay = document.getElementById('sparksOverlay');
+        const sparkCount = 25;
+
+        for (let k = 0; k < sparkCount; k++) {
+            const spark = document.createElement('div');
+            spark.classList.add('spark-particle');
+            // Random positions and sizes for sparks
+            const size = Math.random() * 12 + 6; 
+            spark.style.width = `${size}px`;
+            spark.style.height = `${size}px`;
+            // Keep them somewhat central so they don't clip too much
+            spark.style.top = `${Math.random() * 80 + 10}%`;
+            spark.style.left = `${Math.random() * 80 + 10}%`;
+            // Random animation delays for flickering
+            spark.style.animationDelay = `${Math.random() * 0.5}s`;
+            sparksOverlay.appendChild(spark);
+        }
+
+        // --- Copy Contract Address ---
+        function copyCA() {
+            const caText = "WILL BE UPDATED AFTER DEPLOY"; // Replace with actual CA
+            const toast = document.getElementById('copy-toast');
+            
+            // Modern Clipboard API with fallback
+            if (navigator.clipboard && window.isSecureContext) {
+                 navigator.clipboard.writeText(caText);
+            } else {
+                // Fallback for older browsers or non-secure context
+                let textArea = document.createElement("textarea");
+                textArea.value = caText;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
